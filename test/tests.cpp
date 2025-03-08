@@ -1,10 +1,12 @@
-#include <gtest/gtest.h>
-#include <cstdint>
 #include "circle.h"
 #include "tasks.h"
+#include <cstdint>
 #include <cmath>
+#include <cstdio>
+#include <iostream>
 #include <sstream>
 #include <string>
+#include <gtest/gtest.h>
 
 const double PI = 3.141592653589793;
 const double EPSILON = 1e-6;
@@ -107,10 +109,9 @@ std::ostringstream oss;
 std::streambuf* oldCout = std::cout.rdbuf(oss.rdbuf());
 taskRope();
 std::cout.rdbuf(oldCout);
-std::string output = oss.str();
 double expectedGap = 1.0 / (2 * PI);
 double gap;
-sscanf(output.c_str(), "Earth and Rope gap: %lf meters", &gap);
+sscanf(oss.str().c_str(), "Earth and Rope gap: %lf meters", &gap);
 EXPECT_NEAR(gap, expectedGap, 1e-3);
 }
 
@@ -146,14 +147,13 @@ std::ostringstream oss;
 std::streambuf* oldCout = std::cout.rdbuf(oss.rdbuf());
 taskPool();
 std::cout.rdbuf(oldCout);
-std::string output = oss.str();
 Circle pool(3.0);
 Circle poolWithPath(4.0);
 double pathArea = poolWithPath.getArea() - pool.getArea();
 double fenceLength = poolWithPath.getFerence();
 double expectedCost = pathArea * 1000.0 + fenceLength * 2000.0;
 double cost;
-sscanf(output.c_str(), "Pool cost: %lf rubles", &cost);
+sscanf(oss.str().c_str(), "Pool cost: %lf rubles", &cost);
 EXPECT_NEAR(cost, expectedCost, EPSILON);
 }
 

@@ -1,16 +1,16 @@
-// Copyright 2025 Durynichev Dmitriy
+// Copyright 2025 Artem Tyshkevich
 #ifndef INCLUDE_CIRCLE_H_
 #define INCLUDE_CIRCLE_H_
 #include <cstdint>
 
 class Circle {
-private:
+ private:
     double radius;
     double ference;
     double area;
     void updateFerence();
     void updateArea();
-public:
+ public:
     explicit Circle(double r);
     void setRadius(double r);
     void setFerence(double f);
@@ -20,4 +20,4 @@ public:
     double getArea() const;
 };
 
-#endif  // INCLUDE_CIRCLE_H_
+#endif // INCLUDE_CIRCLE_H_
