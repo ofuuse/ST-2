@@ -1,4 +1,4 @@
-// Copyright 2022 UNN-CS
+// Copyright 2025 Durynichev Dmitriy
 #include "circle.h"
 
 int main() {
