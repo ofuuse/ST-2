@@ -1,3 +1,4 @@
+// Copyright 2025 Durynichev Dmitriy
 #include <cstdint>
 #include <cmath>
 #include <stdexcept>

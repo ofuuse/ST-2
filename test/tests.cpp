@@ -1,9 +1,11 @@
 // Copyright 2025 Durynichev Dmitriy
+
 #include <gtest/gtest.h>
 #include <cstdint>
+#include <cassert>
+#include <cmath>
 #include "circle.h"
 #include "tasks.h"
-#include <cmath>
 
 TEST(CircleTest, ConstructorPositiveRadius) {
 Circle c(5.0);
@@ -162,9 +164,4 @@ double poolRadius = 3.0;
 Circle pool(poolRadius);
 calculatePoolCost();
 EXPECT_DOUBLE_EQ(pool.getRadius(), poolRadius);
-}
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }
