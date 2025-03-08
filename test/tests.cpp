@@ -1,189 +1,170 @@
 // Copyright 2025 Durynichev Dmitriy
-
+#include <gtest/gtest.h>
+#include <cstdint>
 #include "circle.h"
 #include "tasks.h"
-#include <cstdio>
-#include <cstdint>
 #include <cmath>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <gtest/gtest.h>
 
-const double PI = 3.141592653589793;
-const double EPSILON = 1e-6;
-
-TEST(CircleTest, Constructor) {
+TEST(CircleTest, ConstructorPositiveRadius) {
 Circle c(5.0);
-EXPECT_NEAR(c.getRadius(), 5.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 2 * PI * 5.0, EPSILON);
-EXPECT_NEAR(c.getArea(), PI * 25.0, EPSILON);
+EXPECT_DOUBLE_EQ(c.getRadius(), 5.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 2 * M_PI * 5.0);
+EXPECT_DOUBLE_EQ(c.getArea(), M_PI * 25.0);
 }
 
-TEST(CircleTest, DefaultConstructor) {
+TEST(CircleTest, ConstructorZeroRadius) {
 Circle c(0.0);
-EXPECT_NEAR(c.getRadius(), 0.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 0.0, EPSILON);
-EXPECT_NEAR(c.getArea(), 0.0, EPSILON);
+EXPECT_DOUBLE_EQ(c.getRadius(), 0.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 0.0);
+EXPECT_DOUBLE_EQ(c.getArea(), 0.0);
 }
 
-TEST(CircleTest, SetRadius) {
-Circle c(0.0);
+TEST(CircleTest, ConstructorNegativeRadiusThrows) {
+EXPECT_THROW(Circle c(-1.0), std::invalid_argument);
+}
+
+TEST(CircleTest, SetRadiusPositive) {
+Circle c(1.0);
 c.setRadius(3.0);
-EXPECT_NEAR(c.getRadius(), 3.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 2 * PI * 3.0, EPSILON);
-EXPECT_NEAR(c.getArea(), PI * 9.0, EPSILON);
+EXPECT_DOUBLE_EQ(c.getRadius(), 3.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 2 * M_PI * 3.0);
+EXPECT_DOUBLE_EQ(c.getArea(), M_PI * 9.0);
 }
 
-TEST(CircleTest, SetFerence) {
-Circle c(0.0);
-c.setFerence(2 * PI * 4.0);
-EXPECT_NEAR(c.getRadius(), 4.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 2 * PI * 4.0, EPSILON);
-EXPECT_NEAR(c.getArea(), PI * 16.0, EPSILON);
+TEST(CircleTest, SetRadiusZero) {
+Circle c(1.0);
+c.setRadius(0.0);
+EXPECT_DOUBLE_EQ(c.getRadius(), 0.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 0.0);
+EXPECT_DOUBLE_EQ(c.getArea(), 0.0);
 }
 
-TEST(CircleTest, SetArea) {
-Circle c(0.0);
-c.setArea(PI * 25.0);
-EXPECT_NEAR(c.getRadius(), 5.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 2 * PI * 5.0, EPSILON);
-EXPECT_NEAR(c.getArea(), PI * 25.0, EPSILON);
+TEST(CircleTest, SetRadiusNegativeThrows) {
+Circle c(1.0);
+EXPECT_THROW(c.setRadius(-2.0), std::invalid_argument);
 }
 
-TEST(CircleTest, ZeroRadius) {
-Circle c(0.0);
-EXPECT_NEAR(c.getRadius(), 0.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 0.0, EPSILON);
-EXPECT_NEAR(c.getArea(), 0.0, EPSILON);
+TEST(CircleTest, SetFerencePositive) {
+Circle c(1.0);
+c.setFerence(2 * M_PI * 2.0);
+EXPECT_DOUBLE_EQ(c.getRadius(), 2.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 2 * M_PI * 2.0);
+EXPECT_DOUBLE_EQ(c.getArea(), M_PI * 4.0);
 }
 
-TEST(CircleTest, NegativeRadius) {
-Circle c(-5.0);
-EXPECT_NEAR(c.getRadius(), -5.0, EPSILON);
+TEST(CircleTest, SetFerenceZero) {
+Circle c(1.0);
+c.setFerence(0.0);
+EXPECT_DOUBLE_EQ(c.getRadius(), 0.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 0.0);
+EXPECT_DOUBLE_EQ(c.getArea(), 0.0);
 }
 
-TEST(CircleTest, LargeRadius) {
-Circle c(1e6);
-EXPECT_NEAR(c.getRadius(), 1e6, EPSILON);
-EXPECT_NEAR(c.getFerence(), 2 * PI * 1e6, EPSILON);
-EXPECT_NEAR(c.getArea(), PI * 1e12, EPSILON);
+TEST(CircleTest, SetFerenceNegativeThrows) {
+Circle c(1.0);
+EXPECT_THROW(c.setFerence(-1.0), std::invalid_argument);
 }
 
-TEST(CircleTest, SetRadiusUpdatesAll) {
+TEST(CircleTest, SetAreaPositive) {
+Circle c(1.0);
+c.setArea(M_PI * 4.0);
+EXPECT_DOUBLE_EQ(c.getRadius(), 2.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 2 * M_PI * 2.0);
+EXPECT_DOUBLE_EQ(c.getArea(), M_PI * 4.0);
+}
+
+TEST(CircleTest, SetAreaZero) {
+Circle c(1.0);
+c.setArea(0.0);
+EXPECT_DOUBLE_EQ(c.getRadius(), 0.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 0.0);
+EXPECT_DOUBLE_EQ(c.getArea(), 0.0);
+}
+
+TEST(CircleTest, SetAreaNegativeThrows) {
+Circle c(1.0);
+EXPECT_THROW(c.setArea(-1.0), std::invalid_argument);
+}
+
+TEST(CircleTest, GetRadius) {
+Circle c(2.5);
+EXPECT_DOUBLE_EQ(c.getRadius(), 2.5);
+}
+
+TEST(CircleTest, GetFerence) {
+Circle c(2.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 2 * M_PI * 2.0);
+}
+
+TEST(CircleTest, GetArea) {
+Circle c(3.0);
+EXPECT_DOUBLE_EQ(c.getArea(), M_PI * 9.0);
+}
+
+TEST(CircleTest, ConsistencyAfterMultipleSets) {
 Circle c(1.0);
 c.setRadius(2.0);
-EXPECT_NEAR(c.getRadius(), 2.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 2 * PI * 2.0, EPSILON);
-EXPECT_NEAR(c.getArea(), PI * 4.0, EPSILON);
+c.setFerence(2 * M_PI * 3.0);
+c.setArea(M_PI * 4.0);
+EXPECT_DOUBLE_EQ(c.getRadius(), 2.0);
+EXPECT_DOUBLE_EQ(c.getFerence(), 2 * M_PI * 2.0);
+EXPECT_DOUBLE_EQ(c.getArea(), M_PI * 4.0);
 }
 
-TEST(CircleTest, SetFerenceUpdatesAll) {
-Circle c(1.0);
-c.setFerence(2 * PI * 3.0);
-EXPECT_NEAR(c.getRadius(), 3.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 2 * PI * 3.0, EPSILON);
-EXPECT_NEAR(c.getArea(), PI * 9.0, EPSILON);
+// Тесты для задач
+TEST(TasksTest, CalculateGap) {
+double gap = calculateGap();
+double earthRadius = 6378.1;
+double expectedNewRadius = (2 * M_PI * earthRadius + 0.001) / (2 * M_PI);
+double expectedGap = expectedNewRadius - earthRadius;
+EXPECT_NEAR(gap, expectedGap, 1e-10);
 }
 
-TEST(CircleTest, SetAreaUpdatesAll) {
-Circle c(1.0);
-c.setArea(PI * 4.0);
-EXPECT_NEAR(c.getRadius(), 2.0, EPSILON);
-EXPECT_NEAR(c.getFerence(), 2 * PI * 2.0, EPSILON);
-EXPECT_NEAR(c.getArea(), PI * 4.0, EPSILON);
+TEST(TasksTest, CalculatePoolCost) {
+double cost = calculatePoolCost();
+double poolRadius = 3.0;
+double pathWidth = 1.0;
+double concreteCost = 1000.0;
+double fenceCost = 2000.0;
+
+double poolArea = M_PI * poolRadius * poolRadius;
+double totalArea = M_PI * (poolRadius + pathWidth) * (poolRadius + pathWidth);
+double pathArea = totalArea - poolArea;
+double fenceLength = 2 * M_PI * (poolRadius + pathWidth);
+
+double expectedCost = pathArea * concreteCost + fenceLength * fenceCost;
+EXPECT_NEAR(cost, expectedCost, 1e-10);
 }
 
-TEST(CircleTest, ConsistencyCheck) {
-Circle c(5.0);
-double r = c.getRadius();
-c.setFerence(c.getFerence());
-EXPECT_NEAR(c.getRadius(), r, EPSILON);
-}
-
-TEST(CircleTest, PrecisionCheck) {
-Circle c(1.23456789);
-EXPECT_NEAR(c.getRadius(), 1.23456789, EPSILON);
-}
-
-TEST(TaskRopeTest, BasicCase) {
-std::ostringstream oss;
-std::streambuf* oldCout = std::cout.rdbuf(oss.rdbuf());
-taskRope();
-std::cout.rdbuf(oldCout);
-double expectedGap = 1.0 / (2 * PI);
-double gap;
-sscanf(oss.str().c_str(), "Earth and Rope gap: %lf meters", &gap);
-EXPECT_NEAR(gap, expectedGap, 1e-3);
-}
-
-TEST(TaskRopeTest, ZeroExtraLength) {
-Circle earth(6378.1e3);
-double initialFerence = earth.getFerence();
-Circle stretchedEarth(0.0);
-stretchedEarth.setFerence(initialFerence);
-double gap = stretchedEarth.getRadius() - earth.getRadius();
-EXPECT_NEAR(gap, 0.0, EPSILON);
-}
-
-TEST(TaskRopeTest, LargeExtraLength) {
-Circle earth(6378.1e3);
-double initialFerence = earth.getFerence();
-Circle stretchedEarth(0.0);
-stretchedEarth.setFerence(initialFerence + 1000.0);
-double gap = stretchedEarth.getRadius() - earth.getRadius();
-EXPECT_NEAR(gap, 1000.0 / (2 * PI), 1e-3);
-}
-
-TEST(TaskRopeTest, SmallRadius) {
-Circle earth(1.0);
-double initialFerence = earth.getFerence();
-Circle stretchedEarth(0.0);
-stretchedEarth.setFerence(initialFerence + 1.0);
-double gap = stretchedEarth.getRadius() - earth.getRadius();
-EXPECT_NEAR(gap, 1.0 / (2 * PI), 1e-3);
-}
-
-TEST(TaskPoolTest, BasicCase) {
-std::ostringstream oss;
-std::streambuf* oldCout = std::cout.rdbuf(oss.rdbuf());
-taskPool();
-std::cout.rdbuf(oldCout);
+TEST(TasksTest, CalculatePoolCostZeroPathWidth) {
 Circle pool(3.0);
-Circle poolWithPath(4.0);
+Circle poolWithPath(3.0);  // pathWidth = 0
+double concreteCost = 1000.0;
+double fenceCost = 2000.0;
+
 double pathArea = poolWithPath.getArea() - pool.getArea();
 double fenceLength = poolWithPath.getFerence();
-double expectedCost = pathArea * 1000.0 + fenceLength * 2000.0;
-double cost;
-sscanf(oss.str().c_str(), "Pool cost: %lf rubles", &cost);
-EXPECT_NEAR(cost, expectedCost, EPSILON);
+double expectedCost = pathArea * concreteCost + fenceLength * fenceCost;
+
+EXPECT_NEAR(expectedCost, 2 * M_PI * 3.0 * 2000.0, 1e-10);
 }
 
-TEST(TaskPoolTest, ZeroPathWidth) {
-Circle pool(3.0);
-Circle poolWithPath(3.0);
-double pathArea = poolWithPath.getArea() - pool.getArea();
-double fenceLength = poolWithPath.getFerence();
-double expectedCost = pathArea * 1000.0 + fenceLength * 2000.0;
-EXPECT_NEAR(expectedCost, 2 * PI * 3.0 * 2000.0, EPSILON);
+TEST(TasksTest, CalculateGapSmallIncrease) {
+Circle earth(6378.1);
+double originalFerence = earth.getFerence();
+earth.setFerence(originalFerence + 0.001);
+double gap = earth.getRadius() - 6378.1;
+EXPECT_NEAR(calculateGap(), gap, 1e-10);
 }
 
-TEST(TaskPoolTest, LargePathWidth) {
-Circle pool(3.0);
-Circle poolWithPath(5.0);
-double pathArea = poolWithPath.getArea() - pool.getArea();
-double fenceLength = poolWithPath.getFerence();
-double expectedCost = pathArea * 1000.0 + fenceLength * 2000.0;
-double manualCost = (PI * 25.0 - PI * 9.0) * 1000.0 + 2 * PI * 5.0 * 2000.0;
-EXPECT_NEAR(expectedCost, manualCost, EPSILON);
+TEST(TasksTest, CircleConsistencyAfterTask) {
+double poolRadius = 3.0;
+Circle pool(poolRadius);
+calculatePoolCost();
+EXPECT_DOUBLE_EQ(pool.getRadius(), poolRadius);
 }
 
-TEST(TaskPoolTest, ZeroRadius) {
-Circle pool(0.0);
-Circle poolWithPath(1.0);
-double pathArea = poolWithPath.getArea() - pool.getArea();
-double fenceLength = poolWithPath.getFerence();
-double expectedCost = pathArea * 1000.0 + fenceLength * 2000.0;
-double manualCost = PI * 1.0 * 1000.0 + 2 * PI * 1.0 * 2000.0;
-EXPECT_NEAR(expectedCost, manualCost, EPSILON);
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

@@ -4,16 +4,13 @@
 #include <cstdint>
 
 class Circle {
- private:
+private:
     double radius;
     double ference;
     double area;
-    void updateFromRadius();
-    void updateFromFerence();
-    void updateFromArea();
-
- public:
-    Circle();
+    void updateFerence();
+    void updateArea();
+public:
     explicit Circle(double r);
     void setRadius(double r);
     void setFerence(double f);
