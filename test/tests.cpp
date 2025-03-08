@@ -1,8 +1,10 @@
+// Copyright 2025 Durynichev Dmitriy
+
 #include "circle.h"
 #include "tasks.h"
+#include <cstdio>
 #include <cstdint>
 #include <cmath>
-#include <cstdio>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -19,14 +21,14 @@ EXPECT_NEAR(c.getArea(), PI * 25.0, EPSILON);
 }
 
 TEST(CircleTest, DefaultConstructor) {
-Circle c;
+Circle c(0.0);
 EXPECT_NEAR(c.getRadius(), 0.0, EPSILON);
 EXPECT_NEAR(c.getFerence(), 0.0, EPSILON);
 EXPECT_NEAR(c.getArea(), 0.0, EPSILON);
 }
 
 TEST(CircleTest, SetRadius) {
-Circle c;
+Circle c(0.0);
 c.setRadius(3.0);
 EXPECT_NEAR(c.getRadius(), 3.0, EPSILON);
 EXPECT_NEAR(c.getFerence(), 2 * PI * 3.0, EPSILON);
@@ -34,7 +36,7 @@ EXPECT_NEAR(c.getArea(), PI * 9.0, EPSILON);
 }
 
 TEST(CircleTest, SetFerence) {
-Circle c;
+Circle c(0.0);
 c.setFerence(2 * PI * 4.0);
 EXPECT_NEAR(c.getRadius(), 4.0, EPSILON);
 EXPECT_NEAR(c.getFerence(), 2 * PI * 4.0, EPSILON);
@@ -42,7 +44,7 @@ EXPECT_NEAR(c.getArea(), PI * 16.0, EPSILON);
 }
 
 TEST(CircleTest, SetArea) {
-Circle c;
+Circle c(0.0);
 c.setArea(PI * 25.0);
 EXPECT_NEAR(c.getRadius(), 5.0, EPSILON);
 EXPECT_NEAR(c.getFerence(), 2 * PI * 5.0, EPSILON);
@@ -118,7 +120,7 @@ EXPECT_NEAR(gap, expectedGap, 1e-3);
 TEST(TaskRopeTest, ZeroExtraLength) {
 Circle earth(6378.1e3);
 double initialFerence = earth.getFerence();
-Circle stretchedEarth;
+Circle stretchedEarth(0.0);
 stretchedEarth.setFerence(initialFerence);
 double gap = stretchedEarth.getRadius() - earth.getRadius();
 EXPECT_NEAR(gap, 0.0, EPSILON);
@@ -127,7 +129,7 @@ EXPECT_NEAR(gap, 0.0, EPSILON);
 TEST(TaskRopeTest, LargeExtraLength) {
 Circle earth(6378.1e3);
 double initialFerence = earth.getFerence();
-Circle stretchedEarth;
+Circle stretchedEarth(0.0);
 stretchedEarth.setFerence(initialFerence + 1000.0);
 double gap = stretchedEarth.getRadius() - earth.getRadius();
 EXPECT_NEAR(gap, 1000.0 / (2 * PI), 1e-3);
@@ -136,7 +138,7 @@ EXPECT_NEAR(gap, 1000.0 / (2 * PI), 1e-3);
 TEST(TaskRopeTest, SmallRadius) {
 Circle earth(1.0);
 double initialFerence = earth.getFerence();
-Circle stretchedEarth;
+Circle stretchedEarth(0.0);
 stretchedEarth.setFerence(initialFerence + 1.0);
 double gap = stretchedEarth.getRadius() - earth.getRadius();
 EXPECT_NEAR(gap, 1.0 / (2 * PI), 1e-3);
